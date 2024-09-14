@@ -1,0 +1,3 @@
+Command to start Labs:
+
+dotnet run --project LabSelector
