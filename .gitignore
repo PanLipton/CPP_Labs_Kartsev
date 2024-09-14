@@ -54,11 +54,6 @@ artifacts/
 *.svclog
 *.scc
 
-# ReSharper is a .NET coding add-in
-_ReSharper*/
-*.[Rr]e[Ss]harper
-*.DotSettings.user
-
 # NuGet Packages
 *.nupkg
 # NuGet Symbol Packages
@@ -72,19 +67,6 @@ _ReSharper*/
 # NuGet v3's project.json files produces more ignorable files
 *.nuget.props
 *.nuget.targets
-
-# Microsoft Azure Build Output
-csx/
-*.build.csdef
-
-# Windows Store app package directories and files
-AppPackages/
-BundleArtifacts/
-Package.StoreAssociation.xml
-_pkginfo.txt
-*.appx
-*.appxbundle
-*.appxupload
 
 # Visual Studio cache files
 # files ending in .cache can be ignored
@@ -107,35 +89,71 @@ orleans.codegen.cs
 # (https://github.com/github/gitignore/pull/2483#issue-259490424)
 #*.snk
 
-# SQL Server files
-*.mdf
-*.ldf
-*.ndf
+# Rider
+.idea/
 
-# Business Intelligence projects
-*.rdl.data
-*.bim.layout
-*.bim_*.settings
-*.rptproj.rsuser
-*- [Bb]ackup.rdl
-*- [Bb]ackup ([0-9]).rdl
-*- [Bb]ackup ([0-9][0-9]).rdl
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
-# Microsoft Fakes
-FakesAssemblies/
+# Mono auto generated files
+mono_crash.*
 
-# Node.js Tools for Visual Studio
-.ntvs_analysis.dat
-node_modules/
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
 
-# Visual Studio 6 build log
-*.plg
+# Folder config file
+Desktop.ini
 
-# Visual Studio 6 workspace options file
-*.opt
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
 
-# Visual Studio 6 auto-generated workspace file (contains which files were open etc.)
-*.vbw
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Specific to your lab project
+INPUT.txt
+OUTPUT.TXT
+
+# Test results
+TestResults/
+
+# Coverage results
+coverage/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Tye
+.tye/
+
+# AxoCover
+.axoCover/*
+!.axoCover/settings.json
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
 
 # Local History for Visual Studio Code
 .history/

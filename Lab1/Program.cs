@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Numerics;
 
 namespace Lab1
 {
@@ -7,35 +8,34 @@ namespace Lab1
     {
         public static void Main(string[] args)
         {
-            try
-            {
-                SolveStringComputer();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Помилка: {ex.Message}");
-            }
+            SolveStringComputer();
         }
 
-        static void SolveStringComputer()
+        public static void SolveStringComputer()
         {
-            string[] input = File.ReadAllText("Lab1/INPUT.txt").Split();
+            string[] input;
+            try
+            {
+                input = File.ReadAllText("INPUT.txt").Split();
+            }
+            catch (Exception)
+            {
+                throw new Exception("Не вдалося прочитати файл INPUT.txt");
+            }
+
             if (input.Length != 2)
                 throw new Exception("У файлі INPUT.txt має бути два числа!");
 
-            int N = int.Parse(input[0]);
-            int K = int.Parse(input[1]);
+            if (!int.TryParse(input[0], out int N) || !int.TryParse(input[1], out int K))
+                throw new Exception("Вхідні дані повинні бути цілими числами!");
 
-            // Перевірка коректності вхідних даних
             if (N < 1 || N > 100 || K < 1 || K > 100)
                 throw new Exception("Числа N і K повинні бути в діапазоні від 1 до 100 включно!");
 
-            // Обчислення кількості рядків у максимальному наборі
-            long maxStrings = (long)Math.Pow(K, N);
+            BigInteger maxStrings = BigInteger.Pow(K, N);
 
-            // Кількість таких максимальних наборів завжди дорівнює 1
-            Console.WriteLine("Результат з вхідними значеннями INPUT: "+maxStrings);
-            File.WriteAllText("Lab1/OUTPUT.TXT", $"{maxStrings}\n1");
+            Console.WriteLine($"Результат з вхідними значеннями INPUT: {maxStrings}");
+            File.WriteAllText("OUTPUT.TXT", $"{maxStrings}\n1");
         }
     }
 }
