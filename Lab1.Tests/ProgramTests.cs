@@ -1,72 +1,134 @@
 using System;
 using System.IO;
-using System.Numerics;
+using System.Text;
 using Xunit;
+using Lab1;
 
 namespace Lab1.Tests
 {
     public class ProgramTests : IDisposable
     {
-        [Fact]
-        public void SolveStringComputer_ValidInput_CorrectOutput()
+        private readonly string _originalDirectory;
+        private readonly string _testDirectory;
+
+        static ProgramTests()
         {
-            File.WriteAllText("INPUT.txt", "2 3");
-            Program.Main(new string[] { });
-            string[] output = File.ReadAllLines("OUTPUT.TXT");
-            Assert.Equal(2, output.Length);
-            Assert.Equal("9", output[0]);
-            Assert.Equal("1", output[1]);
-            Console.WriteLine("Тест з вхідними даними 2 3 пройдено успішно.");
+            Console.OutputEncoding = Encoding.UTF8;
         }
 
-        [Fact]
-        public void SolveStringComputer_MaximumInput_CorrectOutput()
+        public ProgramTests()
         {
-            File.WriteAllText("INPUT.txt", "100 100");
-            Program.Main(new string[] { });
-            string[] output = File.ReadAllLines("OUTPUT.TXT");
-            Assert.Equal(2, output.Length);
-            Assert.True(BigInteger.TryParse(output[0], out _), "Результат має бути числом");
-            Assert.Equal("1", output[1]);
-            Console.WriteLine("Тест з максимальними вхідними даними 100 100 пройдено успішно.");
-        }
-
-        [Fact]
-        public void SolveStringComputer_MinimumInput_CorrectOutput()
-        {
-            File.WriteAllText("INPUT.txt", "1 1");
-            Program.Main(new string[] { });
-            string[] output = File.ReadAllLines("OUTPUT.TXT");
-            Assert.Equal(2, output.Length);
-            Assert.Equal("1", output[0]);
-            Assert.Equal("1", output[1]);
-            Console.WriteLine("Тест з мінімальними вхідними даними 1 1 пройдено успішно.");
-        }
-
-        [Fact]
-        public void SolveStringComputer_InvalidInput_ThrowsException()
-        {
-            File.WriteAllText("INPUT.txt", "0 101");
-            var exception = Assert.Throws<Exception>(() => Program.Main(new string[] { }));
-            Assert.Contains("Числа N і K повинні бути в діапазоні від 1 до 100 включно!", exception.Message);
-            Console.WriteLine("Тест з некоректними вхідними даними 0 101 пройдено успішно (виключення викинуто).");
-        }
-
-        [Fact]
-        public void SolveStringComputer_MissingInput_ThrowsException()
-        {
-            File.WriteAllText("INPUT.txt", "5");
-            var exception = Assert.Throws<Exception>(() => Program.Main(new string[] { }));
-            Assert.Contains("У файлі INPUT.txt має бути два числа!", exception.Message);
-            Console.WriteLine("Тест з неповними вхідними даними пройдено успішно (виключення викинуто).");
+            _originalDirectory = Directory.GetCurrentDirectory();
+            _testDirectory = Path.Combine(_originalDirectory, "Lab1");
+            Directory.CreateDirectory(_testDirectory);
+            Console.WriteLine($"Тестова директорія створена: {_testDirectory}");
         }
 
         public void Dispose()
         {
-            if (File.Exists("INPUT.txt"))
-                File.Delete("INPUT.txt");
-            if (File.Exists("OUTPUT.TXT"))
-                File.Delete("OUTPUT.TXT");
+            if (Directory.Exists(_testDirectory))
+            {
+                Directory.Delete(_testDirectory, true);
+                Console.WriteLine($"Тестова директорія видалена: {_testDirectory}");
+            }
+        }
+
+        [Fact]
+        public void Test1_CorrectInput()
+        {
+            Console.WriteLine("====== Початок тесту: Test1_CorrectInput ======");
+            
+            File.WriteAllText(Path.Combine(_testDirectory, "INPUT.txt"), "3 2");
+            Console.WriteLine("Файл INPUT.txt створено зі значенням: 3 2");
+
+            Program.SolveStringComputer();
+            Console.WriteLine("Метод SolveStringComputer виконано");
+
+            string outputPath = Path.Combine(_testDirectory, "OUTPUT.TXT");
+            Assert.True(File.Exists(outputPath), "Файл OUTPUT.TXT не був створений");
+            string[] output = File.ReadAllLines(outputPath);
+            Console.WriteLine($"Вміст OUTPUT.TXT: {string.Join(", ", output)}");
+            
+            Assert.Equal(2, output.Length);
+            Assert.Equal("12", output[0]);
+            Assert.Equal("1", output[1]);
+            
+            Console.WriteLine("====== Кінець тесту: Test1_CorrectInput ======");
+        }
+
+        [Fact]
+        public void Test2_LargeNumbers()
+        {
+            Console.WriteLine("====== Початок тесту: Test2_LargeNumbers ======");
+            
+            File.WriteAllText(Path.Combine(_testDirectory, "INPUT.txt"), "1000 100");
+            Console.WriteLine("Файл INPUT.txt створено зі значенням: 1000 100");
+
+            Program.SolveStringComputer();
+            Console.WriteLine("Метод SolveStringComputer виконано");
+
+            string outputPath = Path.Combine(_testDirectory, "OUTPUT.TXT");
+            Assert.True(File.Exists(outputPath), "Файл OUTPUT.TXT не був створений");
+            string[] output = File.ReadAllLines(outputPath);
+            Console.WriteLine($"Довжина результату: {output[0].Length}");
+            
+            Assert.Equal(2, output.Length);
+            Assert.True(output[0].Length > 100, "Результат не є достатньо великим числом");
+            Assert.Equal("1", output[1]);
+            
+            Console.WriteLine("====== Кінець тесту: Test2_LargeNumbers ======");
+        }
+
+        [Fact]
+        public void Test3_InvalidInput()
+        {
+            Console.WriteLine("====== Початок тесту: Test3_InvalidInput ======");
+            
+            File.WriteAllText(Path.Combine(_testDirectory, "INPUT.txt"), "abc def");
+            Console.WriteLine("Файл INPUT.txt створено зі значенням: abc def");
+
+            var exception = Assert.Throws<Exception>(() => Program.SolveStringComputer());
+            Console.WriteLine($"Отримано виняток: {exception.Message}");
+            
+            Assert.Equal("Вхідні дані повинні бути цілими числами!", exception.Message);
+            
+            Console.WriteLine("====== Кінець тесту: Test3_InvalidInput ======");
+        }
+
+        [Fact]
+        public void Test4_OutOfRangeInput()
+        {
+            Console.WriteLine("====== Початок тесту: Test4_OutOfRangeInput ======");
+            
+            File.WriteAllText(Path.Combine(_testDirectory, "INPUT.txt"), "0 101");
+            Console.WriteLine("Файл INPUT.txt створено зі значенням: 0 101");
+
+            var exception = Assert.Throws<Exception>(() => Program.SolveStringComputer());
+            Console.WriteLine($"Отримано виняток: {exception.Message}");
+            
+            Assert.Equal("Числа N і K повинні бути в діапазоні від 1 до 1000 для N і від 1 до 100 для K!", exception.Message);
+            
+            Console.WriteLine("====== Кінець тесту: Test4_OutOfRangeInput ======");
+        }
+
+        [Fact]
+        public void Test5_MissingInputFile()
+        {
+            Console.WriteLine("====== Початок тесту: Test5_MissingInputFile ======");
+            
+            string inputPath = Path.Combine(_testDirectory, "INPUT.txt");
+            if (File.Exists(inputPath))
+            {
+                File.Delete(inputPath);
+                Console.WriteLine("Існуючий файл INPUT.txt видалено");
+            }
+
+            var exception = Assert.Throws<Exception>(() => Program.SolveStringComputer());
+            Console.WriteLine($"Отримано виняток: {exception.Message}");
+            
+            Assert.Equal("Не вдалося прочитати файл INPUT.txt", exception.Message);
+            
+            Console.WriteLine("====== Кінець тесту: Test5_MissingInputFile ======");
         }
     }
 }
