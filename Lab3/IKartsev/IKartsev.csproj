@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <PackageId>IKartsev.GraphLibrary</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Ilya Kartsev</Authors>
+    <Description>Library for calculating shortest paths using Bellman-Ford algorithm</Description>
+    <AssemblyName>IKartsev</AssemblyName>
+    <RootNamespace>IKartsev.GraphLibrary</RootNamespace>
+  </PropertyGroup>
+</Project>
