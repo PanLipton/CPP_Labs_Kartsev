@@ -5,45 +5,32 @@
 
     public FilesHandler()
     {
-        string labFolder = "Lab2";
-        string baseDirectory = AppContext.BaseDirectory;
+        string labFolder = "Lab1";
+        string baseDirectory = Directory.GetCurrentDirectory();
         string filesFolder = "files";
 
-        _inputFilePath = Path.Combine(baseDirectory, labFolder, filesFolder, "INPUT.TXT");
-        _outputFilePath = Path.Combine(baseDirectory, labFolder, filesFolder, "OUTPUT.TXT");
+        _inputFilePath = Path.Combine(baseDirectory, labFolder, filesFolder, "INPUT.txt");
+        _outputFilePath = Path.Combine(baseDirectory, labFolder, filesFolder, "OUTPUT.txt");
     }
 
-    public string InputFilePath
-    {
-        get { return _inputFilePath; }
-    }
+    public string InputFilePath => _inputFilePath;
+    public string OutputFilePath => _outputFilePath;
 
-    public string OutputFilePath
+    public (int N, int K) ReadInputLine(string line)
     {
-        get { return _outputFilePath; }
-    }
-
-    // Метод для читання правил і команди з файлу
-    public (string[] Rules, (char Direction, int Parameter) Command) ReadInputFile()
-    {
-        string[] lines = File.ReadAllLines(_inputFilePath);
-        if (lines.Length < 7)
+        var parts = line.Split(' ');
+        if (parts.Length != 2 || !int.TryParse(parts[0], out int n) || !int.TryParse(parts[1], out int k))
         {
-            throw new InvalidOperationException("Вхідний файл повинен містити 6 правил і 1 команду.");
+            throw new InvalidOperationException("Invalid input format. Expected: N K");
         }
-
-        string[] rules = lines.Take(6).ToArray();
-        string[] commandParts = lines[6].Split(' ');
-
-        if (commandParts.Length != 2 || !int.TryParse(commandParts[1], out int parameter))
-        {
-            throw new InvalidOperationException("Команда повинна мати формат: <напрямок> <параметр>");
-        }
-
-        return (rules, (commandParts[0][0], parameter));
+        return (n, k);
     }
 
-    // Метод для запису результату у файл
+    public bool IsValuesValid(int N, int K)
+    {
+        return N >= 1 && N <= 1000 && K >= 1 && K <= 100;
+    }
+
     public void WriteOutputFile(long result)
     {
         File.WriteAllText(_outputFilePath, result.ToString());

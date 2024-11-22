@@ -22,7 +22,7 @@ namespace Lab1
         {
             var filesHandler = new FilesHandler();
             List<string> answers = ProcessInputFile(filesHandler.InputFilePath, filesHandler);
-            File.WriteAllText(filesHandler.OutputFilePath, string.Join(Environment.NewLine, answers));
+            File.WriteAllLines(filesHandler.OutputFilePath, answers);
         }
 
         public static List<string> ProcessInputFile(string inputFilePath, FilesHandler filesHandler)
@@ -64,10 +64,10 @@ namespace Lab1
             BigInteger maxSetSize = 0;
             for (int m = 1; m <= N; m++)
             {
-                maxSetSize += K * m;  // Кількість можливих комбінацій для кожної довжини
+                maxSetSize += K * m;
             }
 
-            BigInteger maxSetCount = 1; // За умовою задачі
+            BigInteger maxSetCount = 1;
 
             return (maxSetSize, maxSetCount);
         }
