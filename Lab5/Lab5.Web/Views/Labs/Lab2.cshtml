@@ -1,0 +1,59 @@
+@model Lab5.Web.Models.Lab2InputModel
+@{
+    ViewData["Title"] = "Лабораторна робота 2";
+}
+
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Розрахунок траєкторії руху</h5>
+            <p class="card-text">
+                Введіть параметри для розрахунку траєкторії:
+                <ul>
+                    <li>Напрямок руху (N, S, W, E, U, D)</li>
+                    <li>Параметр команди (1-100)</li>
+                    <li>Правила руху для кожного напрямку</li>
+                </ul>
+            </p>
+
+            <form asp-action="Lab2" method="post">
+                <div class="form-group">
+                    <label asp-for="Direction">Напрямок руху:</label>
+                    <select asp-for="Direction" class="form-control">
+                        <option value="N">North (N)</option>
+                        <option value="S">South (S)</option>
+                        <option value="W">West (W)</option>
+                        <option value="E">East (E)</option>
+                        <option value="U">Up (U)</option>
+                        <option value="D">Down (D)</option>
+                    </select>
+                    <span asp-validation-for="Direction" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label asp-for="Parameter">Параметр команди:</label>
+                    <input asp-for="Parameter" class="form-control" />
+                    <span asp-validation-for="Parameter" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <h6>Правила руху:</h6>
+                    @for (int i = 0; i < 6; i++)
+                    {
+                        <div class="mb-2">
+                            <label>Правило для @(new[] { "N", "S", "W", "E", "U", "D" }[i]):</label>
+                            <input asp-for="Rules[i]" class="form-control" />
+                        </div>
+                    }
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">Розрахувати</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

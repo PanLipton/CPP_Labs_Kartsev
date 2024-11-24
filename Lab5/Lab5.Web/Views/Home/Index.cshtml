@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Головна";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Ласкаво просимо</h1>
+    <p class="lead">Веб-застосунок для виконання лабораторних робіт</p>
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="mt-4">
+            <p>Для доступу до лабораторних робіт необхідно авторизуватися</p>
+            <a class="btn btn-primary" asp-controller="Account" asp-action="Login">Увійти</a>
+        </div>
+    }
+    else
+    {
+        <div class="mt-4">
+            <h2>Доступні лабораторні роботи:</h2>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Лабораторна робота 1</h5>
+                            <p class="card-text">Розрахунок надмірності у рядках</p>
+                            <a asp-controller="Labs" asp-action="Lab1" class="btn btn-primary">Перейти</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Лабораторна робота 2</h5>
+                            <p class="card-text">Обчислення траєкторії руху</p>
+                            <a asp-controller="Labs" asp-action="Lab2" class="btn btn-primary">Перейти</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Лабораторна робота 3</h5>
+                            <p class="card-text">Пошук найкоротших шляхів у графі</p>
+                            <a asp-controller="Labs" asp-action="Lab3" class="btn btn-primary">Перейти</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

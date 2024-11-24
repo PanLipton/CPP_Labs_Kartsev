@@ -1,0 +1,33 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = Model?.ErrorTitle ?? "Помилка";
+}
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h2 class="text-center m-0">@(Model?.ErrorTitle ?? "Сталася помилка")</h2>
+                </div>
+                <div class="card-body text-center">
+                    <div class="alert alert-danger">
+                        <p class="mb-0">@(Model?.ErrorMessage ?? "Під час обробки вашого запиту сталася помилка.")</p>
+                    </div>
+
+                    @if (Model?.ShowRequestId ?? false)
+                    {
+                        <div class="text-muted small mb-3">
+                            <strong>ID запиту:</strong> @Model.RequestId
+                        </div>
+                    }
+
+                    <div>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">На головну</a>
+                        <button onclick="history.back()" class="btn btn-secondary">Назад</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

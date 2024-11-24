@@ -1,0 +1,48 @@
+@model List<int>
+@{
+    ViewData["Title"] = "Результат - Лабораторна робота 3";
+}
+
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Найкоротші шляхи у графі</h5>
+            
+            <div class="alert alert-success mt-3">
+                <h6>Відстані від початкової вершини до всіх інших:</h6>
+                <table class="table table-bordered mt-2">
+                    <thead>
+                        <tr>
+                            <th>Вершина</th>
+                            <th>Відстань</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <td>@(i + 1)</td>
+                                <td>
+                                    @if (Model[i] == int.MaxValue)
+                                    {
+                                        <span>30000 (недосяжна)</span>
+                                    }
+                                    else
+                                    {
+                                        @Model[i]
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-3">
+                <a asp-action="Lab3" class="btn btn-primary">Новий розрахунок</a>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">На головну</a>
+            </div>
+        </div>
+    </div>
+</div>

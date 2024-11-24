@@ -1,0 +1,40 @@
+@model Lab5.Web.Models.Lab1InputModel
+@{
+    ViewData["Title"] = "Лабораторна робота 1";
+}
+
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Розрахунок надмірності у рядках</h5>
+            <p class="card-text">
+                Введіть параметри для розрахунку:
+                <ul>
+                    <li>N - максимальна довжина рядка (1 ≤ N ≤ 1000)</li>
+                    <li>K - кількість символів в алфавіті (1 ≤ K ≤ 100)</li>
+                </ul>
+            </p>
+
+            <form asp-action="Lab1" method="post">
+                <div class="form-group">
+                    <label asp-for="N">Максимальна довжина рядка (N):</label>
+                    <input asp-for="N" class="form-control" />
+                    <span asp-validation-for="N" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label asp-for="K">Кількість символів в алфавіті (K):</label>
+                    <input asp-for="K" class="form-control" />
+                    <span asp-validation-for="K" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">Розрахувати</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
